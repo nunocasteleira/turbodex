@@ -48,7 +48,7 @@ const PokemonCard: React.FC<Props> = ({ pokemon }) => {
             <FavoriteIcon favoritePokemon={favoritePokemon} id={pokemon.id} />
           </button> */}
           <div className="relative h-20 w-20 transition-all duration-300 group-hover:scale-125">
-            <Suspense>
+            <Suspense fallback={<p>Loading</p>}>
               <PokemonSprite
                 pokemonName={pokemon.name}
                 spriteUrl={pokemon.default_sprite}
