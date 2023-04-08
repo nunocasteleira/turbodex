@@ -4,7 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { Button } from "../button";
 import { usePagination, DOTS } from "./usePagination";
 
-type Props = {
+export type PaginationProps = {
   count: number;
   currentPage: number;
   first: number;
@@ -17,7 +17,7 @@ type Props = {
   className?: string;
 };
 
-const Pagination: React.FC<Props> = ({
+const Pagination: React.FC<PaginationProps> = ({
   count,
   currentPage,
   first,
@@ -69,7 +69,10 @@ const Pagination: React.FC<Props> = ({
           className="isolate inline-flex -space-x-px rounded-md shadow-sm"
           aria-label="Pagination"
         >
-          <Button onClick={onPreviousPage} className="rounded-none rounded-l-md">
+          <Button
+            onClick={onPreviousPage}
+            className="rounded-none rounded-l-md"
+          >
             <span className="sr-only">Previous</span>
             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
           </Button>
@@ -91,8 +94,8 @@ const Pagination: React.FC<Props> = ({
                 aria-current={pageNumber === currentPage ? "page" : undefined}
                 className={clsx(
                   pageNumber === currentPage &&
-                    "z-10 border-red-500 bg-red-50 text-red-600", 
-                    "rounded-none"
+                    "z-10 border-red-500 bg-red-50 text-red-600",
+                  "rounded-none"
                 )}
               >
                 {pageNumber}

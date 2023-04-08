@@ -1,19 +1,14 @@
 import { redirect } from "next/navigation";
 import { PokemonCard } from "../../src/components/pokemon-card";
 import { PokemonService } from "../../src/services/pokemon-service";
+import { Pagination } from "ui";
+import PokemonListPagination from "./pokemon-list-pagination";
+import { navigateToPageWithSize } from "./hooks";
 
 const DEFAULT_PARAMETERS = {
   defaultPage: 1,
   defaultSize: 20,
 };
-
-function navigateToPageWithSize(page: number, size: number) {
-  const params = new URLSearchParams();
-  params.append("page", String(page));
-  params.append("size", String(size));
-
-  return `?${params.toString()}`;
-}
 
 async function getPokemonList(page: number, size: number) {
   const { errorCode, shortPokemon: pokemonList } =
@@ -28,10 +23,13 @@ async function getPokemonList(page: number, size: number) {
 }
 
 export default async function Pokemon({
-  searchParams: { page, size },
+  searchParams,
 }: {
-  searchParams: { page: number; size: number };
+  searchParams: { page: string; size: string };
 }) {
+  const page = Number(searchParams.page);
+  const size = Number(searchParams.size);
+
   if (!page || !size) {
     redirect(
       navigateToPageWithSize(
@@ -41,6 +39,7 @@ export default async function Pokemon({
     );
   }
   const { pokemonList } = await getPokemonList(page, size);
+
   return (
     <section className="flex max-h-full w-full flex-col">
       <div className="h-full flex-[1_1_100%] overflow-auto">
@@ -50,17 +49,12 @@ export default async function Pokemon({
           ))}
         </div>
       </div>
-      {/* <Pagination
+      <PokemonListPagination
         count={pokemonList.count}
         size={size}
-        first={getFirst()}
-        last={getLast()}
         currentPage={page}
-        onNextPage={onNextPage}
-        onPage={onPage}
-        onPreviousPage={onPreviousPage}
-        className="mx-auto w-full max-w-7xl flex-none bg-slate-50"
-      /> */}
+        pokemonList={pokemonList}
+      />
     </section>
   );
 }

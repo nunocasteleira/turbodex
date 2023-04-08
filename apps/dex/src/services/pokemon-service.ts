@@ -1,7 +1,6 @@
 import { PokemonAssembler } from "@/assemblers/pokemon-assembler";
 import { ValidationError } from "@/models/validation-error";
 
-const NEXT_PUBLIC_SERVER_URL = "http://localhost:3000"
 const SERVICE_URL = "api/pokemon";
 
 export type PokemonListResponse = {
@@ -19,9 +18,9 @@ export class PokemonService {
     page = 1,
     size = 20
   ): Promise<PokemonListResponse> {
-    // const { NEXT_PUBLIC_SERVER_URL } = process.env;
+    const { NEXT_PUBLIC_VERCEL_URL } = process.env;
 
-    const url = new URL(SERVICE_URL, NEXT_PUBLIC_SERVER_URL);
+    const url = new URL(SERVICE_URL, NEXT_PUBLIC_VERCEL_URL);
     url.searchParams.set("page", String(page));
     url.searchParams.set("size", String(size));
     console.log(url.toString());
@@ -34,19 +33,19 @@ export class PokemonService {
   }
 
   static async getPokemon(dex: string): Promise<PokemonResponse> {
-    // const { NEXT_PUBLIC_SERVER_URL } = process.env;
+    const { NEXT_PUBLIC_VERCEL_URL } = process.env;
 
-    const url = new URL(SERVICE_URL + "/" + dex, NEXT_PUBLIC_SERVER_URL);
+    const url = new URL(SERVICE_URL + "/" + dex, NEXT_PUBLIC_VERCEL_URL);
     const res = await fetch(url);
     const errorCode = res.ok ? null : res.status;
     return { errorCode, pokemon: await res.json() };
   }
 
   static async getPokemonFromList(list: string[]): Promise<ShortPokemon[]> {
-    // const { NEXT_PUBLIC_SERVER_URL } = process.env;
+    const { NEXT_PUBLIC_VERCEL_URL } = process.env;
 
     const result = list.map(async (dex) => {
-      const url = new URL(SERVICE_URL + "/" + dex, NEXT_PUBLIC_SERVER_URL);
+      const url = new URL(SERVICE_URL + "/" + dex, NEXT_PUBLIC_VERCEL_URL);
       const res = await fetch(url);
       return PokemonAssembler.fromFullPokemon(await res.json());
     });
