@@ -1,3 +1,7 @@
 export default function Pokemon() {
-  return <p>Pokemon works</p>;
+  return (
+    <h1 className="text-3xl font-bold underline text-red-500">
+      Hello, Next.js!
+    </h1>
+  );
 }

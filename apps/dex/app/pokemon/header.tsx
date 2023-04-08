@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-// import PokeBall from "public/images/PokeBall.svg";
+import PokeBall from "public/images/PokeBall.svg";
 
 const Header: React.FC = () => {
   return (
@@ -10,7 +10,7 @@ const Header: React.FC = () => {
           href={"/"}
           className="flex-no-shrink mr-6 flex items-center text-white"
         >
-          {/* <PokeBall className="mr-2 h-8 w-8" alt="Nuno&rsquo;s Pokédex" /> */}
+          <PokeBall className="mr-2 h-8 w-8" alt="Nuno&rsquo;s Pokédex" />
           <span className="text-xl font-semibold tracking-tight">
             Nuno&rsquo;s Pokédex
           </span>
