@@ -1,2 +1,4 @@
-import * as React from "react";
-export * from "./Button";
+export * from "./button";
+export * from "./pagination";
+export * from "./pill";
+export * from "./search-box";
