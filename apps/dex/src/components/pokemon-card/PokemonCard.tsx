@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useFormatDexNumber, useFormatPokemonName } from "common-functions";
 // import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
 // import { FavoriteIcon } from "../favorite-icon";
-// import { PokemonSprite } from "../pokemon-sprite";
+import { PokemonSprite } from "../pokemon-sprite";
 import { TypePills } from "../type-pills";
 import { useGetTypeBGStyles } from "./useGetTypeBGStyles";
 
@@ -47,12 +47,12 @@ const PokemonCard: React.FC<Props> = ({ pokemon }) => {
           {/* <button onClick={handleFavorite} className="h-8 w-8">
             <FavoriteIcon favoritePokemon={favoritePokemon} id={pokemon.id} />
           </button> */}
-          {/* <div className="relative h-20 w-20 transition-all duration-300 group-hover:scale-125">
+          <div className="relative h-20 w-20 transition-all duration-300 group-hover:scale-125">
             <PokemonSprite
               pokemonName={pokemon.name}
               spriteUrl={pokemon.default_sprite}
             />
-          </div> */}
+          </div>
         </section>
       </article>
     </Link>
