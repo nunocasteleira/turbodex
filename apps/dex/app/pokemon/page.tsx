@@ -7,7 +7,7 @@ const DEFAULT_PARAMETERS = {
   defaultSize: 20,
 };
 
-export function navigateToPageWithSize(page: number, size: number) {
+function navigateToPageWithSize(page: number, size: number) {
   const params = new URLSearchParams();
   params.append("page", String(page));
   params.append("size", String(size));
@@ -46,11 +46,7 @@ export default async function Pokemon({
       <div className="h-full flex-[1_1_100%] overflow-auto">
         <div className="mx-auto grid max-w-7xl grid-cols-2 px-2 sm:px-4 md:grid-cols-3 lg:grid-cols-4">
           {pokemonList.results.map((pokemon) => (
-            <div key={pokemon.id}>
-              <h3>{pokemon.name}</h3>
-              <p>{pokemon.id}</p>
-            </div>
-            // <PokemonCard key={pokemon.name} pokemon={pokemon} />
+            <PokemonCard key={pokemon.name} pokemon={pokemon} />
           ))}
         </div>
       </div>
