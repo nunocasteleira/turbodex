@@ -76,26 +76,18 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
             />
           </button> */}
           <div className="mb-2 flex flex-row items-center justify-between gap-2">
-            <Link href={onPreviousPage()}>
-              <ArrowLeftCircleIcon
-                className={clsx(
-                  "h-8 w-8",
-                  hasPreviousPage() ? "text-orange-400" : "text-orange-400/20"
-                )}
-              />
-            </Link>
+            <PreviousPokemon
+              hasPreviousPage={hasPreviousPage()}
+              onPreviousPage={onPreviousPage()}
+            />
             <div className="pokedex-title-gradient flex h-full w-full flex-row items-center justify-around rounded-lg">
               <span>No. {formattedDexNumber}</span>
               <h2 className="text-slate-100">{formattedPokemonName}</h2>
             </div>
-            <Link href={onNextPage()}>
-              <ArrowRightCircleIcon
-                className={clsx(
-                  "h-8 w-8",
-                  hasNextPage() ? "text-slate-900" : "text-slate-900/20"
-                )}
-              />
-            </Link>
+            <NextPokemon
+              hasNextPage={hasNextPage()}
+              onNextPage={onNextPage()}
+            />
           </div>
 
           <div className="mx-4 flex flex-col items-center justify-between px-6">
@@ -165,5 +157,37 @@ const DexTableLine: React.FC<DexTableLineProps> = ({ Left, Right }) => (
     <Right className="flex w-full flex-row p-4" />
   </div>
 );
+
+function PreviousPokemon({
+  hasPreviousPage,
+  onPreviousPage,
+}: {
+  hasPreviousPage: boolean;
+  onPreviousPage: string;
+}) {
+  return hasPreviousPage ? (
+    <Link href={onPreviousPage}>
+      <ArrowLeftCircleIcon className={clsx("h-8 w-8", "text-orange-400")} />
+    </Link>
+  ) : (
+    <ArrowLeftCircleIcon className={clsx("h-8 w-8", "text-orange-400/20")} />
+  );
+}
+
+function NextPokemon({
+  hasNextPage,
+  onNextPage,
+}: {
+  hasNextPage: boolean;
+  onNextPage: string;
+}) {
+  return hasNextPage ? (
+    <Link href={onNextPage}>
+      <ArrowRightCircleIcon className={clsx("h-8 w-8", "text-slate-900")} />
+    </Link>
+  ) : (
+    <ArrowRightCircleIcon className={clsx("h-8 w-8", "text-slate-900/20")} />
+  );
+}
 
 export default DexPage;
