@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/24/solid";
 // import { FavoriteIcon } from "@/components/favorite-icon";
 // import { PokemonFlavorGallery } from "@/components/pokemon-flavor-gallery";
-// import { SpriteGallery } from "@/components/sprite-gallery";
+import { SpriteGallery } from "@/components/sprite-gallery";
 import { TypePills } from "@/components/type-pills";
 // import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
 import { PokemonService } from "@/services/pokemon-service";
@@ -62,7 +62,7 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
           <Link href={"/pokemon"}>&larr; Back to List</Link>
         </section>
         <section className="mx-auto w-full">
-          {/* <SpriteGallery pokemon={pokemon} /> */}
+          <SpriteGallery pokemon={pokemon} />
         </section>
         <section className="col-span-2 flex w-full flex-col gap-4 p-6">
           {/* <button
