@@ -13,7 +13,7 @@ import {
   ArrowRightCircleIcon,
 } from "@heroicons/react/24/solid";
 // import { FavoriteIcon } from "@/components/favorite-icon";
-// import { PokemonFlavorGallery } from "@/components/pokemon-flavor-gallery";
+import { PokemonFlavorGallery } from "@/components/pokemon-flavor-gallery";
 import { SpriteGallery } from "@/components/sprite-gallery";
 import { TypePills } from "@/components/type-pills";
 // import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
@@ -134,7 +134,7 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
                 </ul>
               )}
             />
-            {/* <PokemonFlavorGallery species={pokemon} /> */}
+            <PokemonFlavorGallery species={pokemon} />
           </div>
         </section>
       </div>
@@ -151,12 +151,14 @@ type DexTableLineProps = {
   Right: React.ComponentType<LineProps>;
 };
 
-const DexTableLine: React.FC<DexTableLineProps> = ({ Left, Right }) => (
-  <div className="flex w-full flex-row">
-    <Left className="w-full bg-slate-300 p-4 text-center" />
-    <Right className="flex w-full flex-row p-4" />
-  </div>
-);
+function DexTableLine({ Left, Right }: DexTableLineProps) {
+  return (
+    <div className="flex w-full flex-row">
+      <Left className="w-full bg-slate-300 p-4 text-center" />
+      <Right className="flex w-full flex-row p-4" />
+    </div>
+  );
+}
 
 function PreviousPokemon({
   hasPreviousPage,
