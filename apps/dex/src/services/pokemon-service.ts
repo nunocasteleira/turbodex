@@ -35,7 +35,8 @@ export class PokemonService {
     const url = new URL(SERVICE_URL + "/" + dex, getBaseUrl());
     const res = await fetch(url);
     const errorCode = res.ok ? null : res.status;
-    return { errorCode, pokemon: await res.json() };
+    const json = await res.json()
+    return { errorCode, pokemon: json };
   }
 
   static async getPokemonFromList(list: string[]): Promise<ShortPokemon[]> {
