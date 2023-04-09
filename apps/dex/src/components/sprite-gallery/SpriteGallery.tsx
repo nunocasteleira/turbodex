@@ -11,15 +11,28 @@ type Props = {
 
 const SpriteGallery: React.FC<Props> = ({ pokemon }) => {
   const { sprites } = pokemon;
-  const flattenedSprites = Object.values(flatten(sprites));
+  const flattenedSprites = Object.values<string>(flatten(sprites));
   const [spriteNumber, setSpriteNumber] = useState(0);
+
+  function onPreviousPage() {
+    spriteNumber > 0 && setSpriteNumber((prev) => prev - 1);
+  }
+
+  function onNextPage() {
+    spriteNumber < flattenedSprites.length - 1 &&
+      setSpriteNumber((prev) => prev + 1);
+  }
+
+  function onPage(page: number) {
+    setSpriteNumber(page);
+  }
 
   return (
     <>
       <div className="relative mx-auto h-64 w-64">
         <PokemonSprite
           pokemonName={pokemon.name}
-          spriteUrl={flattenedSprites[spriteNumber] as string}
+          spriteUrl={flattenedSprites[spriteNumber]}
           lighten
         />
       </div>
@@ -29,14 +42,9 @@ const SpriteGallery: React.FC<Props> = ({ pokemon }) => {
         first={1}
         last={flattenedSprites.length}
         currentPage={spriteNumber + 1}
-        onNextPage={() =>
-          spriteNumber < flattenedSprites.length - 1 &&
-          setSpriteNumber((prev) => prev + 1)
-        }
-        onPage={(page) => setSpriteNumber(page)}
-        onPreviousPage={() =>
-          spriteNumber > 0 && setSpriteNumber((prev) => prev - 1)
-        }
+        onPage={onPage}
+        onPreviousPage={onPreviousPage}
+        onNextPage={onNextPage}
       />
     </>
   );

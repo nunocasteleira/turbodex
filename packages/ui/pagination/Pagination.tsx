@@ -16,6 +16,7 @@ export type PaginationProps = {
   onNextPage: string | (() => void);
   onPage: ((page: number) => string) | ((page: number) => void);
   onPreviousPage: string | (() => void);
+  withLinks?: boolean;
 };
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -29,6 +30,7 @@ const Pagination: React.FC<PaginationProps> = ({
   className,
   size,
   siblingCount = 1,
+  withLinks = false,
 }) => {
   const paginationRange = usePagination({
     currentPage,
@@ -37,14 +39,6 @@ const Pagination: React.FC<PaginationProps> = ({
     pageSize: size,
   });
 
-  function hasPreviousPage() {
-    return currentPage !== first;
-  }
-
-  function hasNextPage() {
-    return currentPage !== last;
-  }
-
   if (currentPage === 0 || (paginationRange && paginationRange.length < 2)) {
     return null;
   }
@@ -52,21 +46,15 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div
       className={clsx(
-        "mx-auto flex items-center justify-center border-t border-slate-200 px-4 py-3 sm:px-6 ",
+        "mx-auto flex items-center justify-center border-t border-slate-200 px-4 py-3 sm:px-6",
         className
       )}
     >
       <div className="flex flex-1 justify-around sm:hidden">
-        <Actionable
-          action={hasPreviousPage() ? onPreviousPage : undefined}
-          className="rounded-md"
-        >
+        <Actionable action={onPreviousPage} className="rounded-md">
           Previous
         </Actionable>
-        <Actionable
-          action={hasNextPage() ? onNextPage : undefined}
-          className="rounded-md"
-        >
+        <Actionable action={onNextPage} className="rounded-md">
           Next
         </Actionable>
       </div>
@@ -85,7 +73,7 @@ const Pagination: React.FC<PaginationProps> = ({
           aria-label="Pagination"
         >
           <Actionable
-            action={hasPreviousPage() ? onPreviousPage : undefined}
+            action={onPreviousPage}
             className="rounded-none rounded-l-md"
           >
             <span className="sr-only">Previous</span>
@@ -102,13 +90,13 @@ const Pagination: React.FC<PaginationProps> = ({
             if (typeof pageNumber === "string") {
               return;
             }
-            const onPageString = onPage(pageNumber - 1);
             return (
               <Actionable
                 key={pageNumber}
+                // @ts-expect-error
                 action={
-                  typeof onPageString === "string"
-                    ? onPageString
+                  withLinks
+                    ? onPage(pageNumber - 1)
                     : () => onPage(pageNumber - 1)
                 }
                 aria-current={pageNumber === currentPage ? "page" : undefined}
@@ -122,10 +110,7 @@ const Pagination: React.FC<PaginationProps> = ({
               </Actionable>
             );
           })}
-          <Actionable
-            action={hasNextPage() ? onNextPage : undefined}
-            className="rounded-none rounded-r-md"
-          >
+          <Actionable action={onNextPage} className="rounded-none rounded-r-md">
             <span className="sr-only">Next</span>
             <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
           </Actionable>

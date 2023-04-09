@@ -18,6 +18,7 @@ export default function PokemonListPagination({
     });
   return (
     <Pagination
+      withLinks
       count={count}
       size={size}
       first={getFirst()}
