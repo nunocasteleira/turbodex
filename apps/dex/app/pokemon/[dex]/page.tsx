@@ -1,6 +1,6 @@
 import React from "react";
-// import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import Error from "next/error";
+import Link from "next/link";
+// import Error from "next/error";
 import clsx from "clsx";
 import {
   capitalize,
@@ -18,6 +18,7 @@ import {
 import { TypePills } from "@/components/type-pills";
 // import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
 import { PokemonService } from "@/services/pokemon-service";
+import { usePokemonDetailPagination } from "./hooks";
 
 type Props = {
   count: number;
@@ -46,34 +47,19 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
   const { count, errorCode, pokemon } = await getPokemonDetails(dex);
   const { formattedDexNumber } = useFormatDexNumber(pokemon.id);
   const { formattedPokemonName } = useFormatPokemonName(pokemon.name);
+  const { hasNextPage, hasPreviousPage, onNextPage, onPreviousPage } =
+    usePokemonDetailPagination({
+      id: pokemon.id,
+      count,
+    });
   // const router = useRouter();
   // const { favoritePokemon, toggleFavoritePokemon } = usePokemonStorage();
-
-  // if (errorCode) {
-  //   return <Error statusCode={errorCode} />;
-  // }
-
-  // function hasPreviousPage() {
-  //   return pokemon.id > 1;
-  // }
-
-  // function onPreviousPage() {
-  //   hasPreviousPage() && router.push(String(pokemon.id - 1));
-  // }
-
-  // function hasNextPage() {
-  //   return pokemon.id < count;
-  // }
-
-  // function onNextPage() {
-  //   hasNextPage() && router.push(String(pokemon.id + 1));
-  // }
 
   return (
     <div className="max-h-full overflow-auto">
       <div className="mx-auto grid max-h-full max-w-7xl grid-cols-1 gap-y-2 overflow-auto lg:grid-cols-3">
         <section className="col-span-2 mx-auto w-full p-4 lg:col-span-3">
-          {/* <Button onClick={() => router.back()}>&larr; Back to List</Button> */}
+          <Link href={"/pokemon"}>&larr; Back to List</Link>
         </section>
         <section className="mx-auto w-full">
           {/* <SpriteGallery pokemon={pokemon} /> */}
@@ -90,24 +76,26 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
             />
           </button> */}
           <div className="mb-2 flex flex-row items-center justify-between gap-2">
-            {/* <ArrowLeftCircleIcon
-              className={clsx(
-                "h-8 w-8",
-                hasPreviousPage() ? "text-orange-400" : "text-orange-400/20"
-              )}
-              onClick={onPreviousPage}
-            /> */}
+            <Link href={onPreviousPage()}>
+              <ArrowLeftCircleIcon
+                className={clsx(
+                  "h-8 w-8",
+                  hasPreviousPage() ? "text-orange-400" : "text-orange-400/20"
+                )}
+              />
+            </Link>
             <div className="pokedex-title-gradient flex h-full w-full flex-row items-center justify-around rounded-lg">
               <span>No. {formattedDexNumber}</span>
               <h2 className="text-slate-100">{formattedPokemonName}</h2>
             </div>
-            {/* <ArrowRightCircleIcon
-              className={clsx(
-                "h-8 w-8",
-                hasNextPage() ? "text-slate-900" : "text-slate-900/20"
-              )}
-              onClick={onNextPage}
-            /> */}
+            <Link href={onNextPage()}>
+              <ArrowRightCircleIcon
+                className={clsx(
+                  "h-8 w-8",
+                  hasNextPage() ? "text-slate-900" : "text-slate-900/20"
+                )}
+              />
+            </Link>
           </div>
 
           <div className="mx-4 flex flex-col items-center justify-between px-6">
