@@ -5,23 +5,26 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev"
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/apps/dex"
     },
     {
       "name": "Next.js: debug client-side",
-      "type": "chrome",
+      "type": "msedge",
       "request": "launch",
-      "url": "http://localhost:3000"
+      "url": "http://localhost:3000",
+      "cwd": "${workspaceFolder}/apps/dex"
     },
     {
       "name": "Next.js: debug full stack",
       "type": "node-terminal",
       "request": "launch",
+      "cwd": "${workspaceFolder}/apps/dex",
       "command": "npm run dev",
       "serverReadyAction": {
         "pattern": "started server on .+, url: (https?://.+)",
         "uriFormat": "%s",
-        "action": "debugWithChrome"
+        "action": "debugWithEdge"
       }
     }
   ]
