@@ -5,6 +5,9 @@ type Props = React.ComponentProps<"button"> & {
   as?: "button" | "span";
 };
 
+export const buttonClassName =
+  "relative inline-flex items-center rounded-md border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-500 focus:z-20";
+
 export const Button: React.FC<Props> = ({
   children,
   as: Component = "button",
@@ -14,10 +17,7 @@ export const Button: React.FC<Props> = ({
   return (
     <Component
       type={Component === "button" ? "button" : undefined}
-      className={clsx(
-        "relative inline-flex items-center rounded-md border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-500 focus:z-20",
-        className
-      )}
+      className={clsx(buttonClassName, className)}
       {...props}
     >
       {children}

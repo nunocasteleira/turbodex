@@ -1,5 +1,3 @@
-import { useRouter } from "next/navigation";
-
 const RESOURCE = "pokemon";
 
 export function navigateToPageWithSize(page: number, size: number) {
@@ -21,33 +19,30 @@ export function usePokemonListPagination({
   routerSize: number;
   size: number;
 }) {
-  const router = useRouter();
-
-  function onPage(newPage: number) {
-    pokemonList?.next &&
-      router.push(
-        navigateToPageWithSize(newPage + 1, Number(routerSize) ?? size ?? 20)
-      );
+  function onPage(newPage: number): string {
+    return navigateToPageWithSize(newPage + 1, Number(routerSize) ?? size ?? 20)
   }
 
-  function onNextPage() {
-    pokemonList?.next &&
-      router.push(
+  function onNextPage(): string {
+    return pokemonList?.next ?
         navigateToPageWithSize(
           currentPage + 1,
           Number(routerSize) ?? size ?? 20
-        )
-      );
+      ) : navigateToPageWithSize(
+        currentPage,
+        Number(routerSize) ?? size ?? 20
+    );
   }
 
-  function onPreviousPage() {
-    pokemonList?.previous &&
-      router.push(
+  function onPreviousPage(): string {
+    return pokemonList?.previous ?
         navigateToPageWithSize(
           currentPage - 1,
           Number(routerSize) ?? size ?? 20
-        )
-      );
+      ) :  navigateToPageWithSize(
+        currentPage,
+        Number(routerSize) ?? size ?? 20
+    );
   }
 
   function getFirst() {

@@ -1,7 +1,8 @@
 import React from "react";
 import clsx from "clsx";
+import Link from "next/link";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Button } from "../button";
+import { Button, buttonClassName } from "../button";
 import { usePagination, DOTS } from "./usePagination";
 
 export type PaginationProps = {
@@ -9,12 +10,12 @@ export type PaginationProps = {
   currentPage: number;
   first: number;
   last: number;
-  onNextPage: () => void;
-  onPage: (page: number) => void;
-  onPreviousPage: () => void;
   siblingCount?: number;
   size: number;
   className?: string;
+  onNextPage: string | (() => void);
+  onPage: ((page: number) => string) | ((page: number) => void);
+  onPreviousPage: string | (() => void);
 };
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -25,9 +26,9 @@ const Pagination: React.FC<PaginationProps> = ({
   onNextPage,
   onPage,
   onPreviousPage,
-  siblingCount = 1,
   className,
   size,
+  siblingCount = 1,
 }) => {
   const paginationRange = usePagination({
     currentPage,
@@ -35,6 +36,14 @@ const Pagination: React.FC<PaginationProps> = ({
     siblingCount,
     pageSize: size,
   });
+
+  function hasPreviousPage() {
+    return currentPage !== first;
+  }
+
+  function hasNextPage() {
+    return currentPage !== last;
+  }
 
   if (currentPage === 0 || (paginationRange && paginationRange.length < 2)) {
     return null;
@@ -47,13 +56,19 @@ const Pagination: React.FC<PaginationProps> = ({
         className
       )}
     >
-      <div className="flex justify-between sm:hidden">
-        <Button onClick={onPreviousPage} className="rounded-md">
+      <div className="flex flex-1 justify-around sm:hidden">
+        <Actionable
+          action={hasPreviousPage() ? onPreviousPage : undefined}
+          className="rounded-md"
+        >
           Previous
-        </Button>
-        <Button onClick={onNextPage} className="ml-3 rounded-md">
+        </Actionable>
+        <Actionable
+          action={hasNextPage() ? onNextPage : undefined}
+          className="rounded-md"
+        >
           Next
-        </Button>
+        </Actionable>
       </div>
       <div className="hidden sm:flex sm:w-full sm:items-center sm:justify-between">
         {size > 1 ? (
@@ -69,13 +84,13 @@ const Pagination: React.FC<PaginationProps> = ({
           className="isolate inline-flex -space-x-px rounded-md shadow-sm"
           aria-label="Pagination"
         >
-          <Button
-            onClick={onPreviousPage}
+          <Actionable
+            action={hasPreviousPage() ? onPreviousPage : undefined}
             className="rounded-none rounded-l-md"
           >
             <span className="sr-only">Previous</span>
             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-          </Button>
+          </Actionable>
           {paginationRange?.map((pageNumber) => {
             if (pageNumber === DOTS) {
               return (
@@ -87,10 +102,15 @@ const Pagination: React.FC<PaginationProps> = ({
             if (typeof pageNumber === "string") {
               return;
             }
+            const onPageString = onPage(pageNumber - 1);
             return (
-              <Button
+              <Actionable
                 key={pageNumber}
-                onClick={() => onPage(pageNumber - 1)}
+                action={
+                  typeof onPageString === "string"
+                    ? onPageString
+                    : () => onPage(pageNumber - 1)
+                }
                 aria-current={pageNumber === currentPage ? "page" : undefined}
                 className={clsx(
                   pageNumber === currentPage &&
@@ -99,17 +119,50 @@ const Pagination: React.FC<PaginationProps> = ({
                 )}
               >
                 {pageNumber}
-              </Button>
+              </Actionable>
             );
           })}
-          <Button onClick={onNextPage} className="rounded-none rounded-r-md">
+          <Actionable
+            action={hasNextPage() ? onNextPage : undefined}
+            className="rounded-none rounded-r-md"
+          >
             <span className="sr-only">Next</span>
             <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-          </Button>
+          </Actionable>
         </nav>
       </div>
     </div>
   );
 };
+type ActionableProps = {
+  children: React.ReactNode;
+  className?: string;
+  action: string | (() => void) | undefined;
+};
+
+function Actionable({ className, children, action }: ActionableProps) {
+  if (typeof action === "string") {
+    return (
+      <Link href={action} className={clsx(buttonClassName, className)}>
+        {children}
+      </Link>
+    );
+  }
+  if (typeof action === "function") {
+    return (
+      <Button onClick={action} className={clsx(buttonClassName, className)}>
+        {children}
+      </Button>
+    );
+  }
+  return (
+    <Button
+      disabled
+      className={clsx(buttonClassName, "text-slate-300", className)}
+    >
+      {children}
+    </Button>
+  );
+}
 
 export { Pagination };
