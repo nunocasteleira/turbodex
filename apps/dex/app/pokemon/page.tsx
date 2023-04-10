@@ -47,7 +47,7 @@ export default async function Pokemon({
   return (
     <section className="flex max-h-full w-full flex-col">
       <div className="h-full flex-[1_1_100%] overflow-auto">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 px-2 sm:px-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 px-2 sm:px-4 md:grid-cols-3 lg:grid-cols-4">
           {pokemonList.results.map((pokemon) => (
             <PokemonCard key={pokemon.name} pokemon={pokemon} />
           ))}

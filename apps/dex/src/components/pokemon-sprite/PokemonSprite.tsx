@@ -3,7 +3,7 @@
 import Image from "next/image";
 import clsx from "clsx";
 import PokeBall from "public/images/PokeBall.svg";
-import { useGetPokemonSprite } from "../pokemon-card/queries/use-get-pokemon-sprite";
+import { useGetPokemonSprite } from "./queries/use-get-pokemon-sprite";
 
 type Props = {
   pokemonName: string;
