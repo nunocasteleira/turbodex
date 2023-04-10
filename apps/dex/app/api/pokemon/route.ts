@@ -22,7 +22,7 @@ export async function GET(request: Request){
   }
 
   return NextResponse.json(pokemon);
-};
+}
 
 async function getPokemonList(
   page = "0",

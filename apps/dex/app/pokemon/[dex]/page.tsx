@@ -4,21 +4,22 @@ import Link from "next/link";
 import clsx from "clsx";
 import {
   capitalize,
+  formatPokemonDetailPageName,
   useFormatDexNumber,
   useFormatPokemonName,
 } from "common-functions";
-import { Button, Pill } from "ui";
+import { Pill } from "ui";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
 } from "@heroicons/react/24/solid";
-// import { FavoriteIcon } from "@/components/favorite-icon";
 import { PokemonFlavorGallery } from "@/components/pokemon-flavor-gallery";
 import { SpriteGallery } from "@/components/sprite-gallery";
 import { TypePills } from "@/components/type-pills";
-// import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
 import { PokemonService } from "@/services/pokemon-service";
 import { usePokemonDetailPagination } from "./hooks";
+import { Metadata } from "next";
+import { FavoritePokemon } from "@/components/favorite-pokemon";
 
 type Props = {
   count: number;
@@ -43,8 +44,20 @@ async function getPokemonDetails(dex: string): Promise<Props> {
   };
 }
 
+export async function generateMetadata({
+  params: { dex },
+}: {
+  params: { dex: string };
+}): Promise<Metadata> {
+  const { pokemon } = await getPokemonDetails(dex);
+  return {
+    title: formatPokemonDetailPageName(pokemon.name, pokemon.id),
+  };
+}
+
 async function DexPage({ params: { dex } }: { params: { dex: string } }) {
-  const { count, errorCode, pokemon } = await getPokemonDetails(dex);
+  // const { count, errorCode, pokemon } = await getPokemonDetails(dex);
+  const { count, pokemon } = await getPokemonDetails(dex);
   const { formattedDexNumber } = useFormatDexNumber(pokemon.id);
   const { formattedPokemonName } = useFormatPokemonName(pokemon.name);
   const { hasNextPage, hasPreviousPage, onNextPage, onPreviousPage } =
@@ -52,8 +65,6 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
       id: pokemon.id,
       count,
     });
-  // const router = useRouter();
-  // const { favoritePokemon, toggleFavoritePokemon } = usePokemonStorage();
 
   return (
     <div className="max-h-full overflow-auto">
@@ -65,16 +76,10 @@ async function DexPage({ params: { dex } }: { params: { dex: string } }) {
           <SpriteGallery pokemon={pokemon} />
         </section>
         <section className="col-span-2 flex w-full flex-col gap-4 p-6">
-          {/* <button
+          <FavoritePokemon
+            id={pokemon.id}
             className="flex h-8 w-full justify-end px-10"
-            onClick={() => toggleFavoritePokemon(pokemon.id)}
-          >
-            <FavoriteIcon
-              className="w-8"
-              favoritePokemon={favoritePokemon}
-              id={pokemon.id}
-            />
-          </button> */}
+          />
           <div className="mb-2 flex flex-row items-center justify-between gap-2">
             <PreviousPokemon
               hasPreviousPage={hasPreviousPage()}

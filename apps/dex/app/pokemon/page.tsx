@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
-import { PokemonCard } from "../../src/components/pokemon-card";
-import { PokemonService } from "../../src/services/pokemon-service";
-import PokemonListPagination from "./pokemon-list-pagination";
-import { navigateToPageWithSize } from "./hooks";
-import { Suspense } from "react";
+import { PokemonListPagination } from "@/components/pokemon-list-pagination";
+import { PokemonService } from "@/services/pokemon-service";
+import { PokemonCard } from "@/components/pokemon-card";
+import { navigateToPageWithSize } from "./service";
 
 const DEFAULT_PARAMETERS = {
   defaultPage: 1,
@@ -54,14 +53,13 @@ export default async function Pokemon({
           ))}
         </div>
       </div>
-      <Suspense fallback={<p>Loading</p>}>
-        <PokemonListPagination
-          count={pokemonList.count}
-          size={size}
-          currentPage={page}
-          pokemonList={pokemonList}
-        />
-      </Suspense>
+      <PokemonListPagination
+        count={pokemonList.count}
+        size={size}
+        currentPage={page}
+        pokemonList={pokemonList}
+        navigate={navigateToPageWithSize}
+      />
     </section>
   );
 }

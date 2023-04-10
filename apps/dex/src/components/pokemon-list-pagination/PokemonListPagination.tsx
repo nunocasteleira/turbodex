@@ -1,13 +1,15 @@
 import { Pagination, PaginationProps } from "ui";
 import { usePokemonListPagination } from "./hooks";
 
-export default function PokemonListPagination({
+function PokemonListPagination({
   count,
   currentPage,
   pokemonList,
   size,
+  navigate,
 }: Pick<PaginationProps, "count" | "currentPage" | "size"> & {
   pokemonList: NamedAPIResourceList<ShortPokemon>;
+  navigate: (page: number, size: number) => string;
 }) {
   const { getFirst, getLast, onNextPage, onPage, onPreviousPage } =
     usePokemonListPagination({
@@ -15,15 +17,8 @@ export default function PokemonListPagination({
       currentPage,
       routerSize: size,
       size,
+      navigate,
     });
-
-  console.log("on component", {
-    currentPage,
-    routerSize: size,
-    size,
-    first: getFirst(),
-    last: getLast(),
-  });
 
   return (
     <Pagination
@@ -40,3 +35,5 @@ export default function PokemonListPagination({
     />
   );
 }
+
+export { PokemonListPagination };

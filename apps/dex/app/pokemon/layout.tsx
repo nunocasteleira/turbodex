@@ -1,10 +1,7 @@
+import { ReactNode } from "react";
 import { Header } from "./header";
 
-export default function PokemonLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PokemonLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-slate-50">
       <Header />

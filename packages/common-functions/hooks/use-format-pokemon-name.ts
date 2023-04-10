@@ -1,8 +1,7 @@
-import { capitalize } from "../string";
+import { formatPokemonName } from "../format";
 
 function useFormatPokemonName(name: string | undefined) {
-  const formattedPokemonName = name ? capitalize(name) : "";
-  return { formattedPokemonName };
+  return formatPokemonName(name)
 }
 
 export { useFormatPokemonName };

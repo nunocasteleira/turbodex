@@ -1,30 +1,20 @@
-"use client";
-
-import React, { ReactEventHandler, Suspense } from "react";
+import React from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { useFormatDexNumber, useFormatPokemonName } from "common-functions";
-// import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
-// import { FavoriteIcon } from "../favorite-icon";
 import { PokemonSprite } from "../pokemon-sprite";
 import { TypePills } from "../type-pills";
 import { useGetTypeBGStyles } from "./useGetTypeBGStyles";
+import { FavoritePokemon } from "../favorite-pokemon";
 
 type Props = {
   pokemon: ShortPokemon;
 };
 
 const PokemonCard: React.FC<Props> = ({ pokemon }) => {
-  // const { favoritePokemon, toggleFavoritePokemon } = usePokemonStorage();
-
   const { formattedDexNumber } = useFormatDexNumber(pokemon.id);
   const { formattedPokemonName } = useFormatPokemonName(pokemon.name);
   const { bgClassName } = useGetTypeBGStyles(pokemon.types);
-
-  // const handleFavorite: ReactEventHandler<HTMLButtonElement> = (e) => {
-  //   e.stopPropagation();
-  //   toggleFavoritePokemon(pokemon.id);
-  // };
 
   return (
     <Link href={"/pokemon/" + String(pokemon.id)}>
@@ -44,16 +34,12 @@ const PokemonCard: React.FC<Props> = ({ pokemon }) => {
           <TypePills types={pokemon.types} />
         </section>
         <section className="flex w-full flex-row items-baseline justify-between">
-          {/* <button onClick={handleFavorite} className="h-8 w-8">
-            <FavoriteIcon favoritePokemon={favoritePokemon} id={pokemon.id} />
-          </button> */}
+          <FavoritePokemon id={pokemon.id} />
           <div className="relative h-20 w-20 transition-all duration-300 group-hover:scale-125">
-            <Suspense fallback={<p>Loading</p>}>
-              <PokemonSprite
-                pokemonName={pokemon.name}
-                spriteUrl={pokemon.default_sprite}
-              />
-            </Suspense>
+            <PokemonSprite
+              pokemonName={pokemon.name}
+              spriteUrl={pokemon.default_sprite}
+            />
           </div>
         </section>
       </article>

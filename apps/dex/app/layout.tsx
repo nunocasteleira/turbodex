@@ -1,8 +1,9 @@
 import "./globals.css";
+import { Providers } from "./providers";
 
 export const metadata = {
-  title: "Home",
-  description: "Welcome to Next.js",
+  title: "Turbodex",
+  description: "Pokédex, powered by Turborepo and Next.js 13",
 };
 
 export default function RootLayout({
@@ -12,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
