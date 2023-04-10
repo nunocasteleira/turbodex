@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import PokeBall from "public/images/PokeBall.svg";
+import { FavoriteAvatars } from "@/components/favorite-avatars";
 
 const Header: React.FC = () => {
   return (
@@ -16,7 +17,7 @@ const Header: React.FC = () => {
           </span>
         </Link>
 
-        {/* <FavoriteAvatars /> */}
+        <FavoriteAvatars />
       </nav>
     </header>
   );
