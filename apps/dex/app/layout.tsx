@@ -1,17 +1,20 @@
-import { ReactNode } from "react";
 import "./globals.css";
-import { PokemonStorageProvider } from "@/context/pokemon-storage/pokemon-storage-context";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "Turbodex",
   description: "Pokédex, powered by Turborepo and Next.js 13",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
-        <PokemonStorageProvider>{children}</PokemonStorageProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactEventHandler } from "react";
+import { ReactEventHandler } from "react";
 import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
 import { FavoriteIcon } from "../favorite-icon";
 import clsx from "clsx";

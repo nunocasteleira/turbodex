@@ -1,10 +1,17 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useReducer } from "react";
-// import { useCookies } from "react-cookie";
-// import { cookieConfig } from "@/config/cookie-config";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
+import { useCookies } from "react-cookie";
+import { cookieConfig } from "@/config/cookie-config";
 import {
   helperFunctions,
+  PokemonStorageActionKind,
   PokemonStorageDispatch,
   pokemonStorageReducer,
 } from "./pokemon-storage-reducer";
@@ -25,10 +32,10 @@ const PokemonStorageContext = createContext<PokemonStorageContextType>({
   dispatch: () => undefined,
 });
 
-// const LOCAL_POKEMON_STORAGE = "pokemonStorage";
+const LOCAL_POKEMON_STORAGE = "pokemonStorage";
 
 function PokemonStorageProvider({ children }: Props) {
-  // const [cookies, setCookies] = useState([]);
+  const [cookies, setCookies] = useCookies([LOCAL_POKEMON_STORAGE]);
   const [state, dispatch] = useReducer(
     pokemonStorageReducer,
     initialPokemonStorageState
@@ -36,21 +43,21 @@ function PokemonStorageProvider({ children }: Props) {
 
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
-  // useEffect(() => {
-  //   if (cookies) {
-  //     dispatch({
-  //       type: PokemonStorageActionKind.initPokemonStorage,
-  //       payload: cookies ?? initialPokemonStorageState,
-  //     });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run on first load
-  // }, []);
+  useEffect(() => {
+    if (cookies) {
+      dispatch({
+        type: PokemonStorageActionKind.initPokemonStorage,
+        payload: cookies.pokemonStorage ?? initialPokemonStorageState,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run on first load
+  }, []);
 
-  // useEffect(() => {
-  //   if (state !== initialPokemonStorageState) {
-  //     setCookies(LOCAL_POKEMON_STORAGE, state, cookieConfig);
-  //   }
-  // }, [setCookies, state]);
+  useEffect(() => {
+    if (state !== initialPokemonStorageState) {
+      setCookies(LOCAL_POKEMON_STORAGE, state, cookieConfig);
+    }
+  }, [setCookies, state]);
 
   return (
     <PokemonStorageContext.Provider value={value}>
