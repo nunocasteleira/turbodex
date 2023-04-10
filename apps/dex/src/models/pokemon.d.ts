@@ -9,4 +9,5 @@ type Pokemon = {
   weight: number;
   sprites: PokemonSprites;
   types: PokemonType[];
+  species: NamedAPIResource
 };

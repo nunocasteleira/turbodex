@@ -14,7 +14,7 @@ export async function GET(_request: Request, {params} : {params: {dex: string}})
 
   try {
     pokemon = await getPokemon(dex);
-    species = await getPokemonSpecies(dex);
+    species = await getPokemonSpecies(pokemon.species.name);
   } catch (error) {
     return NextResponse.json({ error });
   }

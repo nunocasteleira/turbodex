@@ -1,7 +1,8 @@
 import React from "react";
 import clsx from "clsx";
+import Link from "next/link";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Button } from "../button";
+import { Button, buttonClassName } from "../button";
 import { usePagination, DOTS } from "./usePagination";
 
 export type PaginationProps = {
@@ -9,12 +10,13 @@ export type PaginationProps = {
   currentPage: number;
   first: number;
   last: number;
-  onNextPage: () => void;
-  onPage: (page: number) => void;
-  onPreviousPage: () => void;
   siblingCount?: number;
   size: number;
   className?: string;
+  onNextPage: string | (() => void);
+  onPage: ((page: number) => string) | ((page: number) => void);
+  onPreviousPage: string | (() => void);
+  withLinks?: boolean;
 };
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -25,9 +27,10 @@ const Pagination: React.FC<PaginationProps> = ({
   onNextPage,
   onPage,
   onPreviousPage,
-  siblingCount = 1,
   className,
   size,
+  siblingCount = 1,
+  withLinks = false,
 }) => {
   const paginationRange = usePagination({
     currentPage,
@@ -43,17 +46,17 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div
       className={clsx(
-        "mx-auto flex items-center justify-center border-t border-slate-200 px-4 py-3 sm:px-6 ",
+        "mx-auto flex items-center justify-center border-t border-slate-200 px-4 py-3 sm:px-6",
         className
       )}
     >
-      <div className="flex justify-between sm:hidden">
-        <Button onClick={onPreviousPage} className="rounded-md">
+      <div className="flex flex-1 justify-around sm:hidden">
+        <Actionable action={onPreviousPage} className="rounded-md">
           Previous
-        </Button>
-        <Button onClick={onNextPage} className="ml-3 rounded-md">
+        </Actionable>
+        <Actionable action={onNextPage} className="rounded-md">
           Next
-        </Button>
+        </Actionable>
       </div>
       <div className="hidden sm:flex sm:w-full sm:items-center sm:justify-between">
         {size > 1 ? (
@@ -69,13 +72,13 @@ const Pagination: React.FC<PaginationProps> = ({
           className="isolate inline-flex -space-x-px rounded-md shadow-sm"
           aria-label="Pagination"
         >
-          <Button
-            onClick={onPreviousPage}
+          <Actionable
+            action={onPreviousPage}
             className="rounded-none rounded-l-md"
           >
             <span className="sr-only">Previous</span>
             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-          </Button>
+          </Actionable>
           {paginationRange?.map((pageNumber) => {
             if (pageNumber === DOTS) {
               return (
@@ -88,9 +91,14 @@ const Pagination: React.FC<PaginationProps> = ({
               return;
             }
             return (
-              <Button
+              <Actionable
                 key={pageNumber}
-                onClick={() => onPage(pageNumber - 1)}
+                // @ts-expect-error
+                action={
+                  withLinks
+                    ? onPage(pageNumber - 1)
+                    : () => onPage(pageNumber - 1)
+                }
                 aria-current={pageNumber === currentPage ? "page" : undefined}
                 className={clsx(
                   pageNumber === currentPage &&
@@ -99,17 +107,47 @@ const Pagination: React.FC<PaginationProps> = ({
                 )}
               >
                 {pageNumber}
-              </Button>
+              </Actionable>
             );
           })}
-          <Button onClick={onNextPage} className="rounded-none rounded-r-md">
+          <Actionable action={onNextPage} className="rounded-none rounded-r-md">
             <span className="sr-only">Next</span>
             <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-          </Button>
+          </Actionable>
         </nav>
       </div>
     </div>
   );
 };
+type ActionableProps = {
+  children: React.ReactNode;
+  className?: string;
+  action: string | (() => void) | undefined;
+};
+
+function Actionable({ className, children, action }: ActionableProps) {
+  if (typeof action === "string") {
+    return (
+      <Link href={action} className={clsx(buttonClassName, className)}>
+        {children}
+      </Link>
+    );
+  }
+  if (typeof action === "function") {
+    return (
+      <Button onClick={action} className={clsx(buttonClassName, className)}>
+        {children}
+      </Button>
+    );
+  }
+  return (
+    <Button
+      disabled
+      className={clsx(buttonClassName, "text-slate-300", className)}
+    >
+      {children}
+    </Button>
+  );
+}
 
 export { Pagination };

@@ -1,5 +1,3 @@
-"use client";
-
 import { Pagination, PaginationProps } from "ui";
 import { usePokemonListPagination } from "./hooks";
 
@@ -18,16 +16,26 @@ export default function PokemonListPagination({
       routerSize: size,
       size,
     });
+
+  console.log("on component", {
+    currentPage,
+    routerSize: size,
+    size,
+    first: getFirst(),
+    last: getLast(),
+  });
+
   return (
     <Pagination
+      withLinks
       count={count}
       size={size}
       first={getFirst()}
       last={getLast()}
       currentPage={currentPage}
-      onNextPage={onNextPage}
+      onNextPage={onNextPage()}
       onPage={onPage}
-      onPreviousPage={onPreviousPage}
+      onPreviousPage={onPreviousPage()}
       className="mx-auto w-full max-w-7xl flex-none bg-slate-50"
     />
   );

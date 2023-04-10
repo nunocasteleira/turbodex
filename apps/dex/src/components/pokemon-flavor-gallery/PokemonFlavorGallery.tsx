@@ -12,6 +12,19 @@ const PokemonFlavorGallery: React.FC<Props> = ({ species }) => {
   const { flavor_text_entries } = species;
   const [flavorText, setFlavorText] = useState(0);
 
+  function onPreviousPage() {
+    flavorText > 0 && setFlavorText((prev) => prev - 1);
+  }
+
+  function onNextPage() {
+    flavorText < flavor_text_entries.length - 1 &&
+      setFlavorText((prev) => prev + 1);
+  }
+
+  function onPage(page: number) {
+    setFlavorText(page);
+  }
+
   return (
     <div className="flex w-full flex-col items-center justify-center bg-slate-300">
       <PokemonFlavor flavorText={flavor_text_entries[flavorText]} />
@@ -21,24 +34,24 @@ const PokemonFlavorGallery: React.FC<Props> = ({ species }) => {
         currentPage={flavorText + 1}
         first={1}
         last={flavor_text_entries.length}
-        onPage={(page: number) => {
-          setFlavorText(page);
-        }}
-        onPreviousPage={() =>
-          flavorText > 0 && setFlavorText((prev) => prev - 1)
-        }
-        onNextPage={() =>
-          flavorText < flavor_text_entries.length - 1 &&
-          setFlavorText((prev) => prev + 1)
-        }
+        onPage={onPage}
+        onPreviousPage={onPreviousPage}
+        onNextPage={onNextPage}
       />
     </div>
   );
 };
 
-const PokemonFlavor: React.FC<{ flavorText: FlavorText }> = ({
+const PokemonFlavor: React.FC<{ flavorText?: FlavorText }> = ({
   flavorText,
 }) => {
+  if (!flavorText) {
+    return (
+      <div className="flex max-w-lg flex-col gap-2 bg-slate-300 p-4 leading-6">
+        <p> No flavor text was found!</p>
+      </div>
+    );
+  }
   return (
     <div className="flex max-w-lg flex-col gap-2 bg-slate-300 p-4 leading-6">
       <p>{flavorText.flavor_text}</p>
