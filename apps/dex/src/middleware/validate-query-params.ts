@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { ValidationError } from "@/models/validation-error";
