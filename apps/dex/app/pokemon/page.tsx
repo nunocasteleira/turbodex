@@ -10,6 +10,17 @@ const DEFAULT_PARAMETERS = {
   defaultSize: 20,
 };
 
+async function redirectIfNoParams(page: number, size: number) {
+  if (!page || !size) {
+    redirect(
+      navigateToPageWithSize(
+        DEFAULT_PARAMETERS.defaultPage,
+        DEFAULT_PARAMETERS.defaultSize
+      )
+    );
+  }
+}
+
 async function getPokemonList(page: number, size: number) {
   const { errorCode, shortPokemon: pokemonList } =
     await PokemonService.getPokemonList(page, size);
@@ -30,14 +41,8 @@ export default async function Pokemon({
   const page = Number(searchParams.page);
   const size = Number(searchParams.size);
 
-  if (!page || !size) {
-    redirect(
-      navigateToPageWithSize(
-        DEFAULT_PARAMETERS.defaultPage,
-        DEFAULT_PARAMETERS.defaultSize
-      )
-    );
-  }
+  await redirectIfNoParams(page, size);
+
   const { pokemonList } = await getPokemonList(page, size);
 
   return (
