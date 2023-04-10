@@ -6,7 +6,7 @@ import { CookiesProvider } from "react-cookie";
 function Providers({ children }: { children: React.ReactNode }) {
   return (
     <CookiesProvider>
-      <PokemonStorageProvider>{children}</PokemonStorageProvider>;
+      <PokemonStorageProvider>{children}</PokemonStorageProvider>
     </CookiesProvider>
   );
 }
