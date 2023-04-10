@@ -22,7 +22,6 @@ export class PokemonService {
     const url = new URL(SERVICE_URL, getBaseUrl());
     url.searchParams.set("page", String(page));
     url.searchParams.set("size", String(size));
-    console.log(url.toString());
     
     const res = await fetch(url);
     

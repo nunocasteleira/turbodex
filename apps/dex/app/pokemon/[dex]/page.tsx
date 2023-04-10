@@ -4,6 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import {
   capitalize,
+  formatPokemonDetailPageName,
   useFormatDexNumber,
   useFormatPokemonName,
 } from "common-functions";
@@ -19,6 +20,7 @@ import { TypePills } from "@/components/type-pills";
 // import { usePokemonStorage } from "@/context/pokemon-storage/pokemon-storage-context";
 import { PokemonService } from "@/services/pokemon-service";
 import { usePokemonDetailPagination } from "./hooks";
+import { Metadata } from "next";
 
 type Props = {
   count: number;
@@ -40,6 +42,17 @@ async function getPokemonDetails(dex: string): Promise<Props> {
     errorCode,
     pokemon,
     count,
+  };
+}
+
+export async function generateMetadata({
+  params: { dex },
+}: {
+  params: { dex: string };
+}): Promise<Metadata> {
+  const { pokemon } = await getPokemonDetails(dex);
+  return {
+    title: formatPokemonDetailPageName(pokemon.name, pokemon.id),
   };
 }
 

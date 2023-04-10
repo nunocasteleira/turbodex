@@ -6,7 +6,8 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev",
-      "cwd": "${workspaceFolder}/apps/dex"
+      "cwd": "${workspaceFolder}/apps/dex",
+      "autoAttachChildProcesses": true
     },
     {
       "name": "Next.js: debug client-side",
@@ -25,7 +26,8 @@
         "pattern": "started server on .+, url: (https?://.+)",
         "uriFormat": "%s",
         "action": "debugWithEdge"
-      }
+      },
+      "autoAttachChildProcesses": true
     }
   ]
 }

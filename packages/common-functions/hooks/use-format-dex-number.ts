@@ -1,6 +1,7 @@
+import { formatDexNumber } from "../format";
+
 function useFormatDexNumber(dexNumber: number) {
-  const formattedDexNumber = "#" + String(dexNumber).padStart(3, "0");
-  return { formattedDexNumber };
+  return formatDexNumber(dexNumber);
 }
 
 export { useFormatDexNumber };

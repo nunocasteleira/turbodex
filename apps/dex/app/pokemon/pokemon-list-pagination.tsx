@@ -17,14 +17,6 @@ export default function PokemonListPagination({
       size,
     });
 
-  console.log("on component", {
-    currentPage,
-    routerSize: size,
-    size,
-    first: getFirst(),
-    last: getLast(),
-  });
-
   return (
     <Pagination
       withLinks
