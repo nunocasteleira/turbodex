@@ -20,7 +20,7 @@ export async function GET(_request: Request, {params} : {params: {dex: string}})
   }
 
   return NextResponse.json({ ...pokemon, ...species });
-};
+}
 
 async function getPokemon(dex: string): Promise<Pokemon> {
   const url = new URL(BASE_URL + SERVICE_URL + "/" + dex);

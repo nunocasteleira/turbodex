@@ -20,7 +20,7 @@ const TypePills: React.FC<Props> = ({ types }) => (
 const TypePill = ({ type }: { type: string }) => {
   const { typeClassName } = useGetTypeStyles(type);
 
-  return Boolean(type) ? (
+  return type ? (
     <Pill
       className={clsx(
         "inline-flex items-center justify-between gap-1 border-transparent",

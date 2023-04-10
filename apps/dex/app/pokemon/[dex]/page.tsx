@@ -8,7 +8,7 @@ import {
   useFormatDexNumber,
   useFormatPokemonName,
 } from "common-functions";
-import { Button, Pill } from "ui";
+import { Pill } from "ui";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
@@ -57,7 +57,8 @@ export async function generateMetadata({
 }
 
 async function DexPage({ params: { dex } }: { params: { dex: string } }) {
-  const { count, errorCode, pokemon } = await getPokemonDetails(dex);
+  // const { count, errorCode, pokemon } = await getPokemonDetails(dex);
+  const { count, pokemon } = await getPokemonDetails(dex);
   const { formattedDexNumber } = useFormatDexNumber(pokemon.id);
   const { formattedPokemonName } = useFormatPokemonName(pokemon.name);
   const { hasNextPage, hasPreviousPage, onNextPage, onPreviousPage } =

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactEventHandler, Suspense } from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { useFormatDexNumber, useFormatPokemonName } from "common-functions";
