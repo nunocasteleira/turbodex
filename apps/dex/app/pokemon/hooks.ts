@@ -46,11 +46,11 @@ export function usePokemonListPagination({
   }
 
   function getFirst() {
-    return pokemonList ? (currentPage - 1) * pokemonList.results.length + 1 : 0;
+    return pokemonList ? (currentPage - 1) * size : 0;
   }
 
   function getLast() {
-    return pokemonList ? currentPage * pokemonList.results.length : 0;
+    return pokemonList ? (currentPage - 1) * size + pokemonList.results.length : 0;
   }
 
   return { getFirst, getLast, onPage, onNextPage, onPreviousPage };
