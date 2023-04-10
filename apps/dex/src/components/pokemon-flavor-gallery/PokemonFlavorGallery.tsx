@@ -42,9 +42,16 @@ const PokemonFlavorGallery: React.FC<Props> = ({ species }) => {
   );
 };
 
-const PokemonFlavor: React.FC<{ flavorText: FlavorText }> = ({
+const PokemonFlavor: React.FC<{ flavorText?: FlavorText }> = ({
   flavorText,
 }) => {
+  if (!flavorText) {
+    return (
+      <div className="flex max-w-lg flex-col gap-2 bg-slate-300 p-4 leading-6">
+        <p> No flavor text was found!</p>
+      </div>
+    );
+  }
   return (
     <div className="flex max-w-lg flex-col gap-2 bg-slate-300 p-4 leading-6">
       <p>{flavorText.flavor_text}</p>
