@@ -93,7 +93,7 @@ const Pagination: React.FC<PaginationProps> = ({
             return (
               <Actionable
                 key={pageNumber}
-                // @ts-expect-error
+                // @ts-expect-error -- i'm no TS wizard to solve this problem yet...
                 action={
                   withLinks
                     ? onPage(pageNumber - 1)
