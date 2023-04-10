@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import "./globals.css";
+import { PokemonStorageProvider } from "@/context/pokemon-storage/pokemon-storage-context";
 
 export const metadata = {
   title: "Turbodex",
@@ -9,7 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <PokemonStorageProvider>{children}</PokemonStorageProvider>
+      </body>
     </html>
   );
 }
