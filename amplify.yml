@@ -15,7 +15,7 @@ applications:
             # for possible long-term fix from the Amplify team
             - cp -r .next/standalone/apps/dex/. .next/standalone
       artifacts:
-        baseDirectory: apps/dex/.next
+        baseDirectory: .next
         files:
           - "**/*"
       cache:
