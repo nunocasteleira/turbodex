@@ -7,7 +7,7 @@ applications:
             - npx npm install
         build:
           commands:
-            - echo "NEXT_PUBLIC_AWS_BRANCH=$AWS_BRANCH" >> apps/dex/.env
+            - echo "NEXT_PUBLIC_AWS_BRANCH=$AWS_BRANCH" > apps/dex/.env
             - echo "NEXT_PUBLIC_AWS_APP_ID=$AWS_APP_ID" >> apps/dex/.env
             - npx turbo run build --filter=dex
         postBuild:
