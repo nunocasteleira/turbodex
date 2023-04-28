@@ -17,9 +17,8 @@ applications:
       artifacts:
         baseDirectory: .next
         files:
-          - "**/*"
+          - '**/*'
       cache:
         paths:
           - node_modules/**/*
-      buildPath: /
     appRoot: apps/dex
