@@ -12,8 +12,8 @@ export function getBaseUrl() {
   if (process.env.NEXT_PUBLIC_VERCEL_ENV && process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production') {
     return "https://" + process.env.NEXT_PUBLIC_VERCEL_URL;
   }
-  if (process.env.AWS_BRANCH && process.env.AWS_APP_ID) {
-    return "https://" + process.env.AWS_BRANCH + '.' + process.env.AWS_APP_ID + 'amplifyapp.com';
+  if (process.env.NEXT_PUBLIC_AWS_BRANCH && process.env.NEXT_PUBLIC_AWS_APP_ID) {
+    return "https://" + process.env.NEXT_PUBLIC_AWS_BRANCH + '.' + process.env.NEXT_PUBLIC_AWS_APP_ID + 'amplifyapp.com';
   }
   return process.env.NEXT_PUBLIC_BASE_URL
 }
