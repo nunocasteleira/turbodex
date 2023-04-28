@@ -9,7 +9,6 @@ applications:
           commands:
             - echo "NEXT_PUBLIC_AWS_BRANCH=$AWS_BRANCH" > .env
             - echo "NEXT_PUBLIC_AWS_APP_ID=$AWS_APP_ID" >> .env
-            - cat .env
             - npx turbo run build --filter=dex
         postBuild:
           commands:
