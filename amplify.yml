@@ -7,7 +7,7 @@ applications:
             - npx npm install
         build:
           commands:
-            - echo echo "NEXT_PUBLIC_BASE_URL=$AWS_BRANCH.$AWS_APP_ID.amplifyapp.com" > .env
+            - echo "NEXT_PUBLIC_BASE_URL=$AWS_BRANCH.$AWS_APP_ID.amplifyapp.com" > .env
             - npx turbo run build --filter=dex
         postBuild:
           commands:
